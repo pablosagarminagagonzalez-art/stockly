@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1020">
+<meta name="description" content="Inventario personal de compras y ventas">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Stockly · Inventario</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div><div class="eyebrow">TU GESTIÓN DE COMPRAVENTA</div><h1>Stockly<span>.</span></h1></div>
+  <button class="icon-btn" id="exportBtn" title="Exportar copia CSV" aria-label="Exportar">⇩</button>
+</header>
+<main>
+  <section id="dashboard" class="view active">
+    <div class="welcome"><div><p class="muted">RESUMEN GENERAL</p><h2>Tu negocio, de un vistazo.</h2></div><span class="live-dot">● LOCAL</span></div>
+    <div class="hero-card">
+      <div class="muted">BENEFICIO NETO REALIZADO</div>
+      <div class="hero-value" id="profit">0,00 €</div>
+      <div class="hero-foot"><span id="salesCount">0 ventas</span><span id="profitNote">Ingresos menos costes</span></div>
+    </div>
+    <div class="stats-grid">
+      <article class="stat"><span>📦</span><small>Artículos en stock</small><strong id="stockCount">0</strong></article>
+      <article class="stat"><span>💸</span><small>Invertido en stock</small><strong id="invested">0,00 €</strong></article>
+      <article class="stat"><span>🧾</span><small>Ventas realizadas</small><strong id="salesTotal">0,00 €</strong></article>
+      <article class="stat"><span>🎯</span><small>Beneficio potencial</small><strong id="potential">0,00 €</strong></article>
+    </div>
+    <div class="section-head"><h3>Actividad reciente</h3><button class="text-btn" data-view="history">Ver todo</button></div>
+    <div id="recent" class="stack empty">Todavía no hay movimientos. Registra tu primera compra.</div>
+    <div class="section-head"><h3>Accesos rápidos</h3></div>
+    <div class="quick-actions"><button class="primary" data-action="buy">＋ Registrar compra</button><button class="secondary" data-action="sell">↗ Registrar venta</button></div>
+  </section>
+
+  <section id="inventory" class="view">
+    <div class="page-title"><div><p class="muted">CONTROL DE PRODUCTOS</p><h2>Inventario</h2></div><button class="primary small" data-action="buy">＋ Añadir</button></div>
+    <input id="search" class="search" placeholder="Buscar artículo o categoría…">
+    <div class="filters"><button class="filter active" data-filter="all">Todos</button><button class="filter" data-filter="stock">En stock</button><button class="filter" data-filter="sold">Vendidos</button></div>
+    <div id="items" class="stack empty">Tu inventario aparecerá aquí.</div>
+  </section>
+
+  <section id="history" class="view">
+    <div class="page-title"><div><p class="muted">TRAZABILIDAD</p><h2>Movimientos</h2></div></div>
+    <div class="filters"><button class="filter active" data-history="all">Todos</button><button class="filter" data-history="buy">Compras</button><button class="filter" data-history="sell">Ventas</button></div>
+    <div id="historyList" class="stack empty">Aún no hay movimientos.</div>
+  </section>
+
+  <section id="analytics" class="view">
+    <div class="page-title"><div><p class="muted">RESULTADOS</p><h2>Estadísticas</h2></div></div>
+    <div class="hero-card compact"><div class="muted">MARGEN MEDIO DE VENTAS</div><div class="hero-value" id="margin">0 %</div><div class="hero-foot">Beneficio / ingresos de ventas</div></div>
+    <div class="section-head"><h3>Beneficio por mes</h3></div>
+    <div class="chart-card" id="monthlyChart"><div class="empty">Cuando registres ventas verás aquí tu evolución.</div></div>
+    <div class="section-head"><h3>Rentabilidad por categoría</h3></div>
+    <div id="categoryStats" class="stack empty">Sin datos todavía.</div>
+    <p class="footnote">Los cálculos son orientativos y se basan en los costes e ingresos que introduzcas.</p>
+  </section>
+</main>
+
+<nav class="tabbar">
+  <button class="tab active" data-view="dashboard"><b>⌂</b><span>Inicio</span></button>
+  <button class="tab" data-view="inventory"><b>▦</b><span>Inventario</span></button>
+  <button class="tab add-tab" data-action="buy"><b>＋</b><span>Compra</span></button>
+  <button class="tab" data-view="history"><b>↻</b><span>Movimientos</span></button>
+  <button class="tab" data-view="analytics"><b>▥</b><span>Datos</span></button>
+</nav>
+
+<dialog id="buyDialog">
+<form id="buyForm" method="dialog" class="modal">
+  <div class="modal-head"><div><p class="muted">NUEVA OPERACIÓN</p><h2>Registrar compra</h2></div><button type="button" class="close" data-close>×</button></div>
+  <label>Nombre del artículo<input name="name" required maxlength="80" placeholder="Ej. FIFA 14 PS2"></label>
+  <div class="form-row"><label>Categoría<select name="category"><option>Videojuegos</option><option>Consolas</option><option>Accesorios</option><option>Electrónica</option><option>Juguetes</option><option>Otros</option></select></label><label>Fecha<input name="date" type="date" required></label></div>
+  <div class="form-row"><label>Precio de compra (€)<input name="cost" type="number" min="0" step=".01" required placeholder="0,00"></label><label>Gastos extra (€)<input name="extra" type="number" min="0" step=".01" value="0"></label></div>
+  <label>Precio objetivo de venta (€)<input name="ask" type="number" min="0" step=".01" value="0"></label>
+  <label>Notas<textarea name="notes" rows="2" placeholder="Estado, edición, lote…"></textarea></label>
+  <button class="primary full" type="submit">Guardar compra</button>
+</form>
+</dialog>
+
+<dialog id="sellDialog">
+<form id="sellForm" method="dialog" class="modal">
+  <div class="modal-head"><div><p class="muted">CERRAR OPERACIÓN</p><h2>Registrar venta</h2></div><button type="button" class="close" data-close>×</button></div>
+  <label>Artículo<select name="item" id="sellItem" required></select></label>
+  <div class="form-row"><label>Precio de venta (€)<input name="price" type="number" min="0" step=".01" required placeholder="0,00"></label><label>Comisión/gastos (€)<input name="fees" type="number" min="0" step=".01" value="0"></label></div>
+  <div class="form-row"><label>Fecha de venta<input name="date" type="date" required></label><label>Plataforma<select name="platform"><option>Wallapop</option><option>Vinted</option><option>eBay</option><option>En mano</option><option>Otra</option></select></label></div>
+  <p class="calc-preview" id="salePreview">El beneficio se calculará al guardar.</p>
+  <button class="primary full" type="submit">Confirmar venta</button>
+</form>
+</dialog>
+<script src="app.js"></script>
+</body></html>
